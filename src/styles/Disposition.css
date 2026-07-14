@@ -1,13 +1,14 @@
 /* ==========================================================================
    Disposition.css
-   Gère la disposition générale (Layout) de l'application.
+   Gère la disposition générale (Layout) de l'application avec un style
+   haut de gamme, moderne et épuré (Thème Emerald Forest sans dégradés).
    ========================================================================== */
 
 /* --- GABARIT DE PAGE (MISE EN PAGE) --- */
 .page-conteneur {
   display: flex;
   min-height: 100vh;
-  background-color: #f3f4f5;
+  background-color: #f3f6f3;
   position: relative;
 }
 
@@ -19,11 +20,17 @@
 }
 
 .page-principal {
-  padding: 24px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   flex-grow: 1;
+  animation: fadeInEffect 0.3s ease-out;
+}
+
+@keyframes fadeInEffect {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .page-overlay {
@@ -32,8 +39,8 @@
 
 @media (max-width: 768px) {
   .page-principal {
-    padding: 16px;
-    gap: 16px;
+    padding: 20px;
+    gap: 20px;
   }
 
   .page-overlay {
@@ -43,30 +50,32 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(25, 28, 29, 0.4);
+    background-color: rgba(15, 23, 42, 0.3);
     z-index: 90;
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(4px);
   }
 }
 
 
-/* --- BARRE LATÉRALE DE NAVIGATION --- */
+/* --- BARRE LATÉRALE DE NAVIGATION (DARK EMERALD SOLID) --- */
 .sidebar {
-  width: 260px;
-  min-width: 260px;
+  width: 270px;
+  min-width: 270px;
   height: 100vh;
-  background-color: #ffffff;
-  border-right: 1px solid #BBCABF;
+  background-color: #052e16; /* Couleur unie vert forêt */
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
   z-index: 95;
+  border-right: none;
+  box-shadow: 4px 0 24px rgba(6, 47, 23, 0.15);
+  overflow: hidden;
 }
 
 .sidebar-entete {
-  padding: 24px;
-  border-bottom: 1px solid #E7E8E9;
+  padding: 28px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,61 +87,94 @@
   gap: 12px;
 }
 
+.sidebar-logo-conteneur svg {
+  color: #4ade80;
+  filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.3));
+}
+
 .sidebar-app-nom {
   margin: 0;
-  color: #3A5B22;
-  font-family: 'Inter', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
   letter-spacing: -0.5px;
 }
 
 .sidebar-bouton-fermer {
   display: none;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.06);
   border: none;
   cursor: pointer;
-  color: #3C4A42;
-  padding: 4px;
+  color: #a7f3d0;
+  padding: 6px;
   border-radius: 50%;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .sidebar-bouton-fermer:hover {
-  background-color: #f3f4f5;
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 16px 0;
+  gap: 6px;
+  padding: 24px 16px;
   flex-grow: 1;
 }
 
 .sidebar-lien {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-  color: #5E6572;
+  gap: 14px;
+  padding: 12px 18px;
+  color: #94a3b8;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  border-right: 2px solid transparent;
-  transition: all 0.2s ease-in-out;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.sidebar-lien::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 4px;
+  height: 70%;
+  background-color: #22c55e;
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+  border-radius: 0 4px 4px 0;
 }
 
 .sidebar-lien:hover {
-  background-color: #f8faf9;
-  color: #3C4A42;
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #f8fafc;
+  transform: translateX(2px);
 }
 
 .sidebar-lien.active {
-  background-color: #F3F4F5;
-  color: #3A5B22;
-  border-right: 3px solid #3A5B22;
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  font-weight: 700;
+}
+
+.sidebar-lien.active::before {
+  transform: scaleY(1);
+}
+
+.sidebar-lien svg {
+  transition: transform 0.2s ease;
+}
+
+.sidebar-lien:hover svg {
+  transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
@@ -142,7 +184,7 @@
     left: 0;
     z-index: 100;
     transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .sidebar-ouverte {
@@ -157,18 +199,21 @@
 }
 
 
-/* --- BARRE SUPÉRIEURE (EN-TÊTE) --- */
+/* --- BARRE SUPÉRIEURE (EN-TÊTE GLASSMORPHISME) --- */
 .header {
-  height: 70px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #BBCABF;
+  height: 76px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 32px;
   position: sticky;
   top: 0;
   z-index: 10;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
 }
 
 .header-titre-conteneur {
@@ -178,26 +223,28 @@
 
 .header-bouton-menu {
   display: none;
-  background: transparent;
+  background: #f1f5f9;
   border: none;
   cursor: pointer;
-  color: #3C4A42;
-  margin-right: 12px;
-  padding: 4px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  color: #334155;
+  margin-right: 14px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .header-bouton-menu:hover {
-  background-color: #f3f4f5;
+  background-color: #e2e8f0;
+  color: #0f172a;
 }
 
 .header-titre {
   margin: 0;
-  color: #191C1D;
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
+  color: #0f172a;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 20px;
   font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .header-info-utilisateur {
@@ -209,28 +256,39 @@
 .header-profil {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #3C4A42;
+  gap: 10px;
+  color: #334155;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background-color: #f1f5f9;
+  transition: all 0.2s ease;
+}
+
+.header-profil:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
 }
 
 .header-avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background-color: #F3F4F5;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #3A5B22;
-  border: 1px solid #BBCABF;
+  color: #16a34a;
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 768px) {
   .header {
-    padding: 0 16px;
+    padding: 0 20px;
+    height: 70px;
   }
 
   .header-bouton-menu {
@@ -243,6 +301,9 @@
 @media (max-width: 500px) {
   .header-profil span {
     display: none; /* Masque le nom d'utilisateur sur petit écran */
+  }
+  .header-profil {
+    padding: 6px;
   }
 }
 
@@ -259,7 +320,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #3A5B22;
+  color: #16a34a;
   font-weight: 600;
 }
 

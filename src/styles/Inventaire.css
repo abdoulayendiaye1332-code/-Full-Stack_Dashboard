@@ -1,6 +1,6 @@
 /* ==========================================================================
    Inventaire.css
-   Style commun pour les pages Produits.jsx et Entrepots.jsx.
+   Style commun pour les pages Produits.jsx et Entrepots.jsx (Thème Emerald Forest).
    ========================================================================== */
 
 /* --- BARRES D'ACTIONS & FILTRES --- */
@@ -24,24 +24,26 @@
 /* --- ALERTES & PLACEHOLDERS --- */
 .message-info {
   background-color: #ffffff;
-  border-radius: 4px;
-  border: 1px solid #BBCABF;
-  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  padding: 32px;
   text-align: center;
-  color: #5E6572;
+  color: #64748b;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
 .alerte-succes {
-  background-color: #D1FAE5;
-  color: #065F46;
-  border: 1px solid #A7F3D0;
-  padding: 12px;
-  border-radius: 4px;
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #15803d;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  padding: 14px 18px;
+  border-radius: 12px;
   font-size: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  animation: slideInUp 0.25s ease-out;
 }
 
 
@@ -58,10 +60,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16px;
+  margin-top: 20px;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
-  color: #3C4A42;
+  color: #475569;
   gap: 16px;
   flex-wrap: wrap;
 }
@@ -132,8 +134,11 @@
 
 .msg-auth-requis {
   font-size: 13px;
-  color: #5E6572;
+  color: #64748b;
   font-style: italic;
+  padding: 8px 12px;
+  background-color: #f1f5f9;
+  border-radius: 20px;
 }
 
 .pagination-boutons {
@@ -142,10 +147,17 @@
 }
 
 .audit-alerte {
-  background-color: #EBF5E6;
-  color: #3A5B22;
-  border: 1px solid #BBCABF;
-  margin-top: 8px;
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #15803d;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  margin-top: 10px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .barre-filtres .champ-conteneur,
@@ -154,6 +166,7 @@
 }
 
 .btn-pagination {
-  padding: 6px 12px;
-  font-size: 12px;
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 8px;
 }

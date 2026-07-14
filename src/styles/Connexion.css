@@ -7,7 +7,7 @@
   display: flex;
   width: 100vw;
   height: 100vh;
-  background-color: #ffffff;
+  background-color: #f8fafc;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
 }
@@ -23,16 +23,15 @@
 
 .connexion-cadre {
   width: 100%;
-  max-width: 400px;
-  padding: 24px;
+  max-width: 420px;
+  padding: 36px;
   background-color: #ffffff;
-  border-radius: 4px;
-  outline: 1px solid #BBCABF;
-  outline-offset: -1px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  box-shadow: 0 4px 12px rgba(60, 74, 66, 0.05);
+  gap: 28px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
 }
 
 .connexion-logo {
@@ -40,21 +39,27 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 4px;
+  gap: 8px;
+}
+
+.connexion-logo svg {
+  color: #16a34a;
+  filter: drop-shadow(0 4px 6px rgba(22, 163, 74, 0.2));
 }
 
 .connexion-titre {
-  color: #3A5B22;
-  font-size: 28px;
-  font-weight: 700;
+  color: #052e16;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
   margin: 0;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.8px;
 }
 
 .connexion-soustitre {
-  color: #3C4A42;
+  color: #64748b;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 550;
   line-height: 20px;
   margin: 0;
   padding: 0 10px;
@@ -63,7 +68,7 @@
 .connexion-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .connexion-mdp-entete {
@@ -73,14 +78,16 @@
 }
 
 .connexion-mdp-oublie {
-  color: #3A5B22;
+  color: #16a34a;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+  transition: color 0.2s;
 }
 
 .connexion-mdp-oublie:hover {
+  color: #15803d;
   text-decoration: underline;
 }
 
@@ -88,46 +95,50 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #FEE2E2;
-  color: #991B1B;
-  padding: 10px 12px;
-  border-radius: 4px;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 12px;
+  border-radius: 10px;
   font-size: 13px;
-  border: 1px solid #FCA5A5;
+  border: 1px solid #fca5a5;
 }
 
 .connexion-pied {
-  border-top: 1px solid #E7E8E9;
-  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 20px;
   text-align: center;
   font-size: 13px;
-  color: #3C4A42;
+  color: #64748b;
 }
 
 .connexion-lien-support {
-  color: #3A5B22;
+  color: #16a34a;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+  transition: color 0.2s;
 }
 
 .connexion-lien-support:hover {
+  color: #15803d;
   text-decoration: underline;
 }
 
 .zone-illustration {
-  flex: 1.1;
-  background-color: #f3f4f5;
+  flex: 1.2;
+  background-color: #f1f5f9;
   display: flex;
   position: relative;
+  overflow: hidden;
 }
 
 .image-illustration {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-top-left-radius: 45px;
-  border-bottom-left-radius: 45px;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  filter: brightness(0.95);
 }
 
 @media (max-width: 900px) {
@@ -141,7 +152,15 @@
 }
 
 .btn-connexion {
-  border-radius: 2px;
+  border-radius: 10px;
   margin-top: 8px;
-  height: 38px;
+  height: 42px;
+  background-color: #16a34a;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+}
+
+.btn-connexion:hover {
+  background-color: #15803d;
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.22);
 }

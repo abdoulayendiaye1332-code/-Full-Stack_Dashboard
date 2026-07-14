@@ -2,9 +2,71 @@
  * clientApi.js
  * Centralise toutes les communications avec le backend Django.
  * Gère l'authentification JWT (stockage et rafraîchissement automatique du token).
+ * Effectue la traduction et le mapping des structures de données (Français <-> Anglais)
+ * pour correspondre aux modèles de données du backend.
  */
 
 const BASE_URL = ''; // Utilise le proxy configuré dans Vite (ex: /api)
+
+// Mappings pour le statut des produits
+const mappingStatutVersFrontend = {
+  'AVAILABLE': 'disponible',
+  'RESERVED': 'reserve',
+  'EXPIRED': 'perime'
+};
+
+const mappingStatutVersBackend = {
+  'disponible': 'AVAILABLE',
+  'reserve': 'RESERVED',
+  'perime': 'EXPIRED'
+};
+
+// Mapping Produit : Backend (Anglais) -> Frontend (Français)
+function mapProduitVersFrontend(bp) {
+  if (!bp) return null;
+  return {
+    id: bp.id,
+    nomp: bp.name,
+    quantite: bp.quantity,
+    date_expiration: bp.expiration_date,
+    status: mappingStatutVersFrontend[bp.status] || bp.status,
+    entrepot: bp.warehouse
+  };
+}
+
+// Mapping Produit : Frontend (Français) -> Backend (Anglais)
+function mapProduitVersBackend(fp) {
+  if (!fp) return null;
+  return {
+    name: fp.nomp,
+    quantity: fp.quantite,
+    expiration_date: fp.date_expiration,
+    status: mappingStatutVersBackend[fp.status] || fp.status,
+    warehouse: fp.entrepot
+  };
+}
+
+// Mapping Entrepôt : Backend (Anglais) -> Frontend (Français)
+function mapEntrepotVersFrontend(be) {
+  if (!be) return null;
+  return {
+    id: be.id,
+    nom: be.name,
+    localisation: be.location,
+    capacite: be.capacity,
+    produits: be.products ? be.products.map(mapProduitVersFrontend) : []
+  };
+}
+
+// Mapping Entrepôt : Frontend (Français) -> Backend (Anglais)
+function mapEntrepotVersBackend(fe) {
+  if (!fe) return null;
+  return {
+    name: fe.nom,
+    location: fe.localisation,
+    capacity: fe.capacite
+  };
+}
 
 /**
  * Fonction utilitaire pour récupérer les headers par défaut.
@@ -125,46 +187,51 @@ export const clientApi = {
    * Récupère la liste de tous les entrepôts.
    */
   getEntrepots: async () => {
-    const reponse = await requete('/api/entrepots/');
+    const reponse = await requete('/api/warehouses/');
     if (!reponse.ok) throw new Error('Impossible de charger les entrepôts');
-    return reponse.json();
+    const data = await reponse.json();
+    return data.map(mapEntrepotVersFrontend);
   },
 
   /**
    * Crée un nouvel entrepôt.
    */
   creerEntrepot: async (entrepotData) => {
-    const reponse = await requete('/api/entrepots/', {
+    const backendData = mapEntrepotVersBackend(entrepotData);
+    const reponse = await requete('/api/warehouses/', {
       method: 'POST',
-      body: JSON.stringify(entrepotData),
+      body: JSON.stringify(backendData),
     });
     if (!reponse.ok) {
       const erreur = await reponse.json();
       throw new Error(Object.values(erreur).flat().join(' ') || 'Erreur lors de la création');
     }
-    return reponse.json();
+    const data = await reponse.json();
+    return mapEntrepotVersFrontend(data);
   },
 
   /**
    * Modifie un entrepôt existant.
    */
   modifierEntrepot: async (id, entrepotData) => {
-    const reponse = await requete(`/api/entrepots/${id}/`, {
+    const backendData = mapEntrepotVersBackend(entrepotData);
+    const reponse = await requete(`/api/warehouses/${id}/`, {
       method: 'PUT',
-      body: JSON.stringify(entrepotData),
+      body: JSON.stringify(backendData),
     });
     if (!reponse.ok) {
       const erreur = await reponse.json();
       throw new Error(Object.values(erreur).flat().join(' ') || 'Erreur lors de la modification');
     }
-    return reponse.json();
+    const data = await reponse.json();
+    return mapEntrepotVersFrontend(data);
   },
 
   /**
    * Supprime un entrepôt.
    */
   supprimerEntrepot: async (id) => {
-    const reponse = await requete(`/api/entrepots/${id}/`, {
+    const reponse = await requete(`/api/warehouses/${id}/`, {
       method: 'DELETE',
     });
     if (!reponse.ok) throw new Error('Erreur lors de la suppression de l\'entrepôt');
@@ -175,9 +242,14 @@ export const clientApi = {
    * Effectue un audit d'un entrepôt spécifique (total des produits stockés).
    */
   getAuditEntrepot: async (id) => {
-    const reponse = await requete(`/api/entrepots/${id}/audit/`);
+    const reponse = await requete(`/api/warehouses/${id}/audit/`);
     if (!reponse.ok) throw new Error('Impossible de récupérer l\'audit de l\'entrepôt');
-    return reponse.json();
+    const backendData = await reponse.json();
+    return {
+      Entrepot: backendData.warehouse,
+      total_products: backendData.total_products,
+      by_status: backendData.by_status
+    };
   },
 
   // --- PRODUITS ---
@@ -186,46 +258,51 @@ export const clientApi = {
    * Récupère la liste de tous les produits.
    */
   getProduits: async () => {
-    const reponse = await requete('/api/produits/');
+    const reponse = await requete('/api/products/');
     if (!reponse.ok) throw new Error('Impossible de charger les produits');
-    return reponse.json();
+    const data = await reponse.json();
+    return data.map(mapProduitVersFrontend);
   },
 
   /**
    * Crée un nouveau produit.
    */
   creerProduit: async (produitData) => {
-    const reponse = await requete('/api/produits/', {
+    const backendData = mapProduitVersBackend(produitData);
+    const reponse = await requete('/api/products/', {
       method: 'POST',
-      body: JSON.stringify(produitData),
+      body: JSON.stringify(backendData),
     });
     if (!reponse.ok) {
       const erreur = await reponse.json();
       throw new Error(Object.values(erreur).flat().join(' ') || 'Erreur lors de la création du produit');
     }
-    return reponse.json();
+    const data = await reponse.json();
+    return mapProduitVersFrontend(data);
   },
 
   /**
    * Modifie un produit existant.
    */
   modifierProduit: async (id, produitData) => {
-    const reponse = await requete(`/api/produits/${id}/`, {
+    const backendData = mapProduitVersBackend(produitData);
+    const reponse = await requete(`/api/products/${id}/`, {
       method: 'PUT',
-      body: JSON.stringify(produitData),
+      body: JSON.stringify(backendData),
     });
     if (!reponse.ok) {
       const erreur = await reponse.json();
       throw new Error(Object.values(erreur).flat().join(' ') || 'Erreur lors de la modification du produit');
     }
-    return reponse.json();
+    const data = await reponse.json();
+    return mapProduitVersFrontend(data);
   },
 
   /**
    * Supprime un produit.
    */
   supprimerProduit: async (id) => {
-    const reponse = await requete(`/api/produits/${id}/`, {
+    const reponse = await requete(`/api/products/${id}/`, {
       method: 'DELETE',
     });
     if (!reponse.ok) throw new Error('Erreur lors de la suppression du produit');
@@ -236,9 +313,9 @@ export const clientApi = {
    * Déplace un produit vers un autre entrepôt.
    */
   deplacerProduit: async (produitId, entrepotId) => {
-    const reponse = await requete(`/api/produits/${produitId}/move/`, {
+    const reponse = await requete(`/api/products/${produitId}/move/`, {
       method: 'POST',
-      body: JSON.stringify({ Entrepot: entrepotId }),
+      body: JSON.stringify({ warehouse: entrepotId }),
     });
 
     if (!reponse.ok) {
@@ -246,6 +323,23 @@ export const clientApi = {
       throw new Error(erreur.error || 'Erreur lors du déplacement du produit');
     }
 
-    return reponse.json();
+    // Récupérer le nom de l'entrepôt pour un affichage convivial
+    let nomEntrepot = `l'entrepôt #${entrepotId}`;
+    try {
+      const whReponse = await requete(`/api/warehouses/${entrepotId}/`);
+      if (whReponse.ok) {
+        const whData = await whReponse.json();
+        if (whData && whData.name) {
+          nomEntrepot = whData.name;
+        }
+      }
+    } catch (e) {
+      console.warn("Impossible de récupérer le nom de l'entrepôt cible pour le message de déplacement :", e);
+    }
+
+    return {
+      message: 'Produit transféré.',
+      Entrepot: nomEntrepot
+    };
   },
 };
