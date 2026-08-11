@@ -1,4 +1,4 @@
-# 📦 Eco-Stock - Guide d'Installation et Explication du Frontend React
+#  Eco-Stock - Guide d'Installation et Explication du Frontend React
 
 Bienvenue dans le guide du frontend **Eco-Stock**. Ce projet est une application web construite avec **React (JSX)** et **Vite** qui sert d'interface de gestion pour le backend Django REST d'Eco-Stock.
 
@@ -6,7 +6,7 @@ Ce guide est spécialement rédigé pour les **débutants** ou toute personne n'
 
 ---
 
-## 🚀 Guide de Démarrage Rapide
+##  Guide de Démarrage Rapide
 
 Si vous n'avez jamais utilisé React, suivez simplement ces étapes une par une :
 
@@ -46,7 +46,7 @@ Le frontend communique avec le serveur Django (qui contient la base de données)
 
 ---
 
-## 📂 Architecture et Refactoring du Code
+##  Architecture et Refactoring du Code
 
 Le code a été restructuré en respectant le **Principe de Responsabilité Unique (SRP)** : chaque fichier a un rôle précis, simple et unique. Voici comment s'organise le dossier `src/` :
 
@@ -85,7 +85,7 @@ frontend/src/
 
 ---
 
-## 💡 Explication simplifiée des concepts clés de l'application
+## Explication simplifiée des concepts clés de l'application
 
 Si vous débutez en React, voici les 3 concepts clés utilisés dans ce projet :
 
@@ -103,7 +103,7 @@ Pour éviter cela, nous utilisons un **Contexte**. Il permet de stocker l'état 
 
 ---
 
-## 🛠️ Outils utilisés
+## Outils utilisés
 * **Vite** : Outil de build ultra-rapide pour React.
 * **styled-components** : Permet d'écrire du code CSS directement à l'intérieur de nos fichiers JavaScript pour styliser nos composants.
 * **lucide-react** : Une collection d'icônes vectorielles modernes et légères (utilisée pour les boutons de recherche, cadenas, etc.).
