@@ -68,13 +68,7 @@ export default function Connexion() {
                 <label className="champ-label">
                   Mot de passe
                 </label>
-                <a 
-                  className="connexion-mdp-oublie"
-                  href="#oublie" 
-                  onClick={() => alert('Veuillez contacter votre administrateur pour réinitialiser votre mot de passe.')}
-                >
-                  Oublié ?
-                </a>
+              
               </div>
               <Entree
                 icone={Lock}
@@ -97,23 +91,11 @@ export default function Connexion() {
             </Bouton>
           </form>
 
-          <div className="connexion-pied">
-            <span>Besoin d'aide ? </span>
-            <a className="connexion-lien-support" href="mailto:support@ecostock.com">
-              Contacter le support
-            </a>
-          </div>
+    
         </div>
       </div>
 
-      {/* Côté droit : Image décorative */}
-      <div className="zone-illustration">
-        <img 
-          className="image-illustration"
-          src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80" 
-          alt="Entrepôt éco-responsable" 
-        />
-      </div>
+  
     </div>
   );
 }

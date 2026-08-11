@@ -6,7 +6,7 @@
  * pour correspondre aux modèles de données du backend.
  */
 
-const BASE_URL = ''; // Utilise le proxy configuré dans Vite (ex: /api)
+const BASE_URL = 'http://127.0.0.1:8000'; 
 
 // Mappings pour le statut des produits
 const mappingStatutVersFrontend = {
@@ -21,7 +21,7 @@ const mappingStatutVersBackend = {
   'perime': 'EXPIRED'
 };
 
-// Mapping Produit : Backend (Anglais) -> Frontend (Français)
+// Mapping Produit
 function mapProduitVersFrontend(bp) {
   if (!bp) return null;
   return {
@@ -124,7 +124,7 @@ async function requete(url, options = {}) {
  */
 async function rafraichirToken(refresh) {
   try {
-    const reponse = await fetch('/api/token/refresh/', {
+    const reponse = await fetch(`${BASE_URL}/api/token/refresh/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refresh }),
@@ -163,7 +163,7 @@ export const clientApi = {
    * Connecte l'utilisateur avec son nom d'utilisateur et son mot de passe.
    */
   connexion: async (username, password) => {
-    const reponse = await fetch('/api/token/', {
+    const reponse = await fetch(`${BASE_URL}/api/token/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
@@ -187,7 +187,7 @@ export const clientApi = {
    * Récupère la liste de tous les entrepôts.
    */
   getEntrepots: async () => {
-    const reponse = await requete('/api/warehouses/');
+    const reponse = await requete(`${BASE_URL}/api/warehouses/`);
     if (!reponse.ok) throw new Error('Impossible de charger les entrepôts');
     const data = await reponse.json();
     return data.map(mapEntrepotVersFrontend);
@@ -198,7 +198,7 @@ export const clientApi = {
    */
   creerEntrepot: async (entrepotData) => {
     const backendData = mapEntrepotVersBackend(entrepotData);
-    const reponse = await requete('/api/warehouses/', {
+    const reponse = await requete(`${BASE_URL}/api/warehouses/`, {
       method: 'POST',
       body: JSON.stringify(backendData),
     });
@@ -215,7 +215,7 @@ export const clientApi = {
    */
   modifierEntrepot: async (id, entrepotData) => {
     const backendData = mapEntrepotVersBackend(entrepotData);
-    const reponse = await requete(`/api/warehouses/${id}/`, {
+    const reponse = await requete(`${BASE_URL}/api/warehouses/${id}/`, {
       method: 'PUT',
       body: JSON.stringify(backendData),
     });
@@ -231,7 +231,7 @@ export const clientApi = {
    * Supprime un entrepôt.
    */
   supprimerEntrepot: async (id) => {
-    const reponse = await requete(`/api/warehouses/${id}/`, {
+    const reponse = await requete(`${BASE_URL}/api/warehouses/${id}/`, {
       method: 'DELETE',
     });
     if (!reponse.ok) throw new Error('Erreur lors de la suppression de l\'entrepôt');
@@ -242,7 +242,7 @@ export const clientApi = {
    * Effectue un audit d'un entrepôt spécifique (total des produits stockés).
    */
   getAuditEntrepot: async (id) => {
-    const reponse = await requete(`/api/warehouses/${id}/audit/`);
+    const reponse = await requete(`${BASE_URL}/api/warehouses/${id}/audit/`);
     if (!reponse.ok) throw new Error('Impossible de récupérer l\'audit de l\'entrepôt');
     const backendData = await reponse.json();
     return {
@@ -258,7 +258,7 @@ export const clientApi = {
    * Récupère la liste de tous les produits.
    */
   getProduits: async () => {
-    const reponse = await requete('/api/products/');
+    const reponse = await requete(`${BASE_URL}/api/products/`);
     if (!reponse.ok) throw new Error('Impossible de charger les produits');
     const data = await reponse.json();
     return data.map(mapProduitVersFrontend);
@@ -269,7 +269,7 @@ export const clientApi = {
    */
   creerProduit: async (produitData) => {
     const backendData = mapProduitVersBackend(produitData);
-    const reponse = await requete('/api/products/', {
+    const reponse = await requete(`${BASE_URL}/api/products/`, {
       method: 'POST',
       body: JSON.stringify(backendData),
     });
@@ -286,7 +286,7 @@ export const clientApi = {
    */
   modifierProduit: async (id, produitData) => {
     const backendData = mapProduitVersBackend(produitData);
-    const reponse = await requete(`/api/products/${id}/`, {
+    const reponse = await requete(`${BASE_URL}/api/products/${id}/`, {
       method: 'PUT',
       body: JSON.stringify(backendData),
     });
@@ -302,7 +302,7 @@ export const clientApi = {
    * Supprime un produit.
    */
   supprimerProduit: async (id) => {
-    const reponse = await requete(`/api/products/${id}/`, {
+    const reponse = await requete(`${BASE_URL}/api/products/${id}/`, {
       method: 'DELETE',
     });
     if (!reponse.ok) throw new Error('Erreur lors de la suppression du produit');
@@ -313,7 +313,7 @@ export const clientApi = {
    * Déplace un produit vers un autre entrepôt.
    */
   deplacerProduit: async (produitId, entrepotId) => {
-    const reponse = await requete(`/api/products/${produitId}/move/`, {
+    const reponse = await requete(`${BASE_URL}/api/products/${produitId}/move/`, {
       method: 'POST',
       body: JSON.stringify({ warehouse: entrepotId }),
     });
@@ -326,7 +326,7 @@ export const clientApi = {
     // Récupérer le nom de l'entrepôt pour un affichage convivial
     let nomEntrepot = `l'entrepôt #${entrepotId}`;
     try {
-      const whReponse = await requete(`/api/warehouses/${entrepotId}/`);
+      const whReponse = await requete(`${BASE_URL}/api/warehouses/${entrepotId}/`);
       if (whReponse.ok) {
         const whData = await whReponse.json();
         if (whData && whData.name) {

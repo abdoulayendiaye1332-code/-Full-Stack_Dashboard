@@ -12,7 +12,6 @@ export const BarreLaterale = ({ $ouverte, surFermeture }) => {
     <aside className={`sidebar ${$ouverte ? 'sidebar-ouverte' : ''}`}>
       <div className="sidebar-entete">
         <div className="sidebar-logo-conteneur">
-          <Warehouse size={24} color="#3A5B22" />
           <h1 className="sidebar-app-nom">Eco-Stock</h1>
         </div>
         

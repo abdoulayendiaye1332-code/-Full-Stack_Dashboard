@@ -227,7 +227,7 @@ export default function Entrepots() {
               <td className="table-td table-td-gras">{entrepot.id}</td>
               <td className="table-td">{entrepot.nom}</td>
               <td className="table-td">{entrepot.localisation}</td>
-              <td className="table-td">{entrepot.capacite} kg / m³</td>
+              <td className="table-td">{entrepot.capacite}</td>
               
               <td className="table-td text-droite">
                 <div className="actions-conteneur">
